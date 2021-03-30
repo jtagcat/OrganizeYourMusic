@@ -1188,8 +1188,9 @@ function savePlaylist() {
     if (curTracks.length > 0) {
         var name = $("#staging-playlist-name").text();
         info("saving " + name);
+        // https://developer.spotify.com/documentation/web-api/reference/#endpoint-create-playlist
         var url = "https://api.spotify.com/v1/users/" + curUserID + "/playlists"
-        callSpotify("POST", url, {name:name }, function(ok, results) {
+        callSpotify("POST", url, {name:name, public:false}, function(ok, results) {
             if (ok) {
                 saveTracksToPlaylist(results, curTracks);
             } else {
@@ -1547,7 +1548,7 @@ function linfo(msg) {
 }
 
 function authorizeUser() {
-    var scopes = 'user-library-read playlist-modify-public';
+    var scopes = 'user-library-read playlist-modify-public playlist-modify-private'; // read, export to public playlists (not a feature anymore), export to private playlists
     var url = 'https://accounts.spotify.com/authorize?client_id=' + SPOTIFY_CLIENT_ID +
         '&response_type=token' +
         '&show_dialog=false' +
