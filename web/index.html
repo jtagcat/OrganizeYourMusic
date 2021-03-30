@@ -1950,7 +1950,7 @@ function tinyArtists(artists) {
 function getSavedTracks() {
     startShowingTracks();
     $("#lplaylist-name").text("Your Saved Tracks");
-    getTracksFromAPI("Your Saved tracks", "https://api.spotify.com/v1/me/tracks")
+    getTracksFromAPI("Your Saved Tracks", "https://api.spotify.com/v1/me/tracks")
     .then(function(results) {
     })
     .catch(function(results){
