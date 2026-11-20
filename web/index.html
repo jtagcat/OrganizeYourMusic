@@ -133,8 +133,12 @@
                         <li> <b> Speechiness </b> - The higher the value the more
                         spoken word the song contains.
                         <li> <b> Popularity </b> - The higher the value the more
-                        popular the song is.
-                        <li> <b> Duration </b> - The length of the song.
+                            popular the song is.</li>
+                        <li> <b> Duration </b> - The length of the song.</li>
+                        <li> <b> Instrumentalness </b> - Higher values contain less vocals</li>
+                        <li> <b> Key </b> - -1 not detected, 0 is C, rising value in half tones</li>
+                        <li> <b> Mode </b> - 0 minor, 1 major</li>
+                        <li> <b> Time signature </b> - 3-7 beats in a bar</li>
                     </ol>
                     </p>
                     <h2> See it in Action</h2>
@@ -393,7 +397,7 @@ var theWorld = [
     {
         name: "Styles",
         nodes: [
-            makeNode("instrumental", "instrumentalness",
+            makeNode("instrumentalness", "instrumentalness",
                 featMusicFilter('instrumentalness', .8, 1.0),
                 featGetterPercent('instrumentalness'),
                 featSorter('instrumentalness', true), true),
@@ -1000,6 +1004,10 @@ function showTracksInTable(table, tracks, getter, label, isStagingList) {
     data.addColumn('number', 'acous');
     data.addColumn('number', 'spch');
     data.addColumn('number', 'pop');
+    data.addColumn('number', 'inst');
+    data.addColumn('number', 'key');
+    data.addColumn('number', 'mode');
+    data.addColumn('number', 'tsig');
 
     data.setColumnProperty(0, {allowHTML: true});
     data.setColumnProperty(1, {allowHTML: true});
@@ -1057,6 +1065,10 @@ function showTracksInTable(table, tracks, getter, label, isStagingList) {
         row.push(getPercent(track.feats.acousticness));
         row.push(getPercent(track.feats.speechiness));
         row.push(getInt(track.feats.popularity));
+        row.push(getPercent(track.feats.instrumentalness));
+        row.push(getInt(track.feats.key));
+        row.push(getInt(track.feats.mode));
+        row.push(getInt(track.feats.time_signature));
         rows.push(row);
     });
     data.addRows(rows);
@@ -1310,6 +1322,27 @@ var plottableData = {
         name: "popularity",
         min:0, max:100,
         getter:featGetter('popularity')
+    },
+
+    instrumentalness: {
+        name: "instrumentalness",
+        min:0, max:1,
+        getter:featGetterPercent('instrumentalness')
+    },
+    key: {
+        name: "key",
+        min:-1, max:11,
+        getter:featGetterPercent('key')
+    },
+    mode: {
+        name: "mode",
+        min:0, max:1,
+        getter:featGetterPercent('mode')
+    },
+    time_signature: {
+        name: "time_signature",
+        min:3, max:7,
+        getter:featGetterPercent('time_signature')
     },
     age: {
         min:0, max:5000,
